@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Works — AI開発ポートフォリオ</title>
+<meta name="description" content="マルチエージェントのワークフローで、分析から実装・検証までを自動化。AI開発の成果物をまとめたポートフォリオです。">
+<!-- 検索エンジンに載せない（リンクを知っている人だけがアクセスする想定） -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<!-- OGP（リンク共有時の見た目） -->
+<meta property="og:title" content="AI Works — AI開発ポートフォリオ">
+<meta property="og:description" content="AI開発の成果物をまとめたポートフォリオ。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__logo" href="#top">AI<span>Works</span></a>
+    <button class="nav__toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav__menu" id="navMenu">
+      <a href="#works">Works</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="nav__cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <span class="badge reveal">AI Development Portfolio</span>
+      <h1 class="hero__title reveal">AIで、<em>つくる。</em><br>そして、<em>検証する。</em></h1>
+      <p class="hero__lead reveal">
+        マルチエージェントのワークフローで、分析から実装・検証までを自動化。<br>
+        その成果物を、ひとつずつ丁寧にまとめました。
+      </p>
+      <div class="hero__cta reveal">
+        <a class="btn btn--primary" href="#works">実績を見る</a>
+        <a class="btn btn--ghost" href="#contact">お問い合わせ</a>
+      </div>
+      <figure class="hero__shot reveal">
+        <img src="assets/img/hero.jpg" alt="マルチエージェントワークフロー（analyzer / builder / reviewer）の出力画面" loading="eager">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== Stats ===== -->
+  <section class="stats">
+    <div class="wrap stats__grid">
+      <div class="stat reveal"><span class="stat__num">3</span><span class="stat__label">専門エージェント</span></div>
+      <div class="stat reveal"><span class="stat__num">16</span><span class="stat__label">自動テスト全通過</span></div>
+      <div class="stat reveal"><span class="stat__num">100%</span><span class="stat__label">検証カバレッジ</span></div>
+      <div class="stat reveal"><span class="stat__num">±5%</span><span class="stat__label">目標字数の精度</span></div>
+    </div>
+  </section>
+
+  <!-- ===== Works ===== -->
+  <section class="section" id="works">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="divider"></span>
+        <p class="eyebrow">Works</p>
+        <h2 class="sec-title">制作実績</h2>
+        <p class="sec-lead">AIエージェントで生成・検証した、アプリケーションやワークフローの成果物。<br>カードをクリックすると拡大表示します。</p>
+      </div>
+
+      <div class="filters reveal" id="filters">
+        <button class="chip is-active" data-filter="all">すべて</button>
+        <button class="chip" data-filter="agent">エージェント開発</button>
+        <button class="chip" data-filter="automation">自動化</button>
+        <button class="chip" data-filter="webapp">Webアプリ</button>
+      </div>
+
+      <div class="grid" id="grid">
+
+        <article class="card reveal" data-category="agent" data-img="assets/img/work-multiagent.png" data-title="マルチエージェントによるToDoアプリ自動生成">
+          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="マルチエージェント出力" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Claude Code</span><span class="tag">SubAgents</span><span class="tag">Python</span></div>
+            <h3 class="card__title">マルチエージェントによる<br>ToDoアプリ自動生成</h3>
+            <p class="card__desc">analyzer → builder → reviewer の3段で、分析・実装・検証を自動化。</p>
+            <p class="card__metric">✓ 16テスト全通過 / 合格判定</p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-category="automation" data-img="assets/img/work-multiagent.png" data-title="SEO記事 自動執筆ワークフロー">
+          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="SEO執筆ワークフロー" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Skills</span><span class="tag">SEO</span></div>
+            <h3 class="card__title">SEO記事<br>自動執筆ワークフロー</h3>
+            <p class="card__desc">文字数計測スキルと連携し、目標字数に収束させる執筆フロー。</p>
+            <p class="card__metric">✓ 目標字数 ±5% に収束</p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-category="automation" data-img="assets/img/work-multiagent.png" data-title="ファイル分析パイプライン">
+          <div class="card__thumb"><img src="assets/img/work-builder-thumb.jpg" alt="ファイル分析パイプライン" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Commands</span><span class="tag">Pipeline</span></div>
+            <h3 class="card__title">ファイル分析<br>パイプライン</h3>
+            <p class="card__desc">要約 → 改善提案の3段で、1ファイルを段階的に深掘り。</p>
+            <p class="card__metric">✓ 重要度別の提案を自動生成</p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-category="agent" data-img="assets/img/work-multiagent.png" data-title="コードレビュー自動化エージェント">
+          <div class="card__thumb"><img src="assets/img/work-reviewer-thumb.jpg" alt="コードレビュー自動化" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Reviewer</span><span class="tag">Quality</span></div>
+            <h3 class="card__title">コードレビュー<br>自動化エージェント</h3>
+            <p class="card__desc">要件充足・バグ・回帰・セキュリティを多観点で検証し合否を判定。</p>
+            <p class="card__metric">✓ Critical 0 / 重要度別に指摘</p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-category="webapp" data-img="assets/img/work-multiagent.png" data-title="タスク管理ボード生成">
+          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="タスク管理ボード" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Skills</span><span class="tag">HTML</span></div>
+            <h3 class="card__title">タスク管理<br>ボード生成</h3>
+            <p class="card__desc">優先度を自動提案し、ソート済みの見やすいHTMLボードを生成。</p>
+            <p class="card__metric">✓ 優先度の自動付与</p>
+          </div>
+        </article>
+
+        <article class="card reveal" data-category="webapp" data-img="assets/img/work-multiagent.png" data-title="ポートフォリオサイト自動構築">
+          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="ポートフォリオ自動構築" loading="lazy"></div>
+          <div class="card__body">
+            <div class="tags"><span class="tag">Design</span><span class="tag">Frontend</span></div>
+            <h3 class="card__title">ポートフォリオ<br>サイト自動構築</h3>
+            <p class="card__desc">デザインシステムを読み取り、レスポンシブなLPを実装・デプロイ。</p>
+            <p class="card__metric">✓ デザイン仕様に準拠</p>
+          </div>
+        </article>
+
+      </div>
+      <p class="grid__empty" id="gridEmpty" hidden>該当する実績がありません。</p>
+    </div>
+  </section>
+
+  <!-- ===== Workflow ===== -->
+  <section class="section section--warm" id="workflow">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="divider"></span>
+        <p class="eyebrow">Workflow</p>
+        <h2 class="sec-title">制作プロセス</h2>
+        <p class="sec-lead">3つの専門エージェントが直列で連携し、要件から実装までを一気通貫で進めます。</p>
+      </div>
+      <div class="flow">
+        <div class="step reveal">
+          <p class="step__num">01 / Analyze</p>
+          <h3 class="step__title">分析</h3>
+          <p class="step__desc">前提・制約・リスク・実装方針を構造化。コードは編集しません。</p>
+          <p class="step__arrow">↓ 方針を引き継ぐ</p>
+        </div>
+        <div class="step reveal">
+          <p class="step__num">02 / Build</p>
+          <h3 class="step__title">構築</h3>
+          <p class="step__desc">分析方針に沿って、実際にコードを実装・修正します。</p>
+          <p class="step__arrow">↓ 変更を引き継ぐ</p>
+        </div>
+        <div class="step reveal">
+          <p class="step__num">03 / Review</p>
+          <h3 class="step__title">検証</h3>
+          <p class="step__desc">要件充足・バグ・回帰を検証し、合否を判定します。</p>
+          <p class="step__arrow">✓ 合格 / 要修正</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section class="section" id="about">
+    <div class="wrap about">
+      <div class="about__text reveal">
+        <span class="divider divider--left"></span>
+        <p class="eyebrow">About</p>
+        <h2 class="sec-title sec-title--left">AIを使いこなし、<br>つくる人。</h2>
+        <p class="about__lead">
+          Claude Code の拡張機能（SubAgents / Skills / Commands）を組み合わせ、
+          調査・設計・実装・検証・ドキュメント化までを一気通貫で自動化しています。
+          「推測で書かない・必ず検証する」を信条に、再現性のある成果物づくりを心がけています。
+        </p>
+        <ul class="skills">
+          <li><span class="skills__cat">AI / Agent</span>Claude Code・SubAgents・Skills・Commands</li>
+          <li><span class="skills__cat">Language</span>Python・JavaScript・HTML / CSS</li>
+          <li><span class="skills__cat">Focus</span>自動化・検証駆動・ドキュメント整備</li>
+        </ul>
+      </div>
+      <div class="about__card reveal">
+        <div class="codecard">
+          <div class="codecard__bar"><span></span><span></span><span></span></div>
+          <pre class="codecard__body"><code>$ /build-and-review "ToDoアプリ"
+
+<span class="c-key">analyzer</span>  → 前提・制約・方針を整理
+<span class="c-key">builder</span>   → todo.py / test_todo.py 実装
+<span class="c-key">reviewer</span>  → 16 tests <span class="c-ok">PASS</span> ✓
+
+<span class="c-ok">総合判定: 合格</span>
+Critical: 0  Important: 1</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="section section--warm contact" id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="divider"></span>
+        <h2 class="sec-title">一緒に、つくりませんか。</h2>
+        <p class="sec-lead">AI開発・自動化のご相談を承っています。</p>
+        <a class="btn btn--primary contact__btn reveal" href="mailto:ai-kanri@livecreate.jp">お問い合わせ</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span class="nav__logo">AI<span>Works</span></span>
+    <p>© 2026 AIWorks — AI Development Portfolio</p>
+  </div>
+</footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightboxClose" aria-label="閉じる">×</button>
+  <figure class="lightbox__fig">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption id="lightboxCap"></figcaption>
+  </figure>
+</div>
+
+<button class="totop" id="toTop" aria-label="トップへ戻る">↑</button>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
