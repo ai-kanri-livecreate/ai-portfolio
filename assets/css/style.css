@@ -27,6 +27,8 @@ body{
 }
 img{display:block;max-width:100%}
 a{color:inherit}
+/* キーボード操作時のフォーカスを明示（アクセシビリティ） */
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:4px}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
 
 /* ---------- reveal animation ---------- */
@@ -40,7 +42,7 @@ a{color:inherit}
 /* ---------- buttons ---------- */
 .btn{
   display:inline-block;padding:12px 32px;border-radius:50px;
-  font-family:inherit;font-size:14px;font-weight:500;letter-spacing:.06em;
+  font-family:inherit;font-size:14px;font-weight:600;letter-spacing:.06em;
   text-decoration:none;cursor:pointer;transition:.3s var(--ease);
 }
 .btn--primary{background:var(--rose);color:var(--inv);border:1px solid var(--rose)}
