@@ -1,0 +1,3 @@
+/* JS無効時のフォールバック：reveal の初期非表示を打ち消して本文を必ず表示する。
+   （CSP準拠のため <noscript> から外部CSSとして読み込む） */
+.reveal{opacity:1 !important;transform:none !important}

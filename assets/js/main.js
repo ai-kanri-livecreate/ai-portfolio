@@ -16,38 +16,28 @@
   /** @param {string} id @returns {HTMLElement|null} */
   function byId(id) { return document.getElementById(id); }
 
-  initNav();
-  initToTop();
+  initScrollUI();
   initMobileNav();
   initReveal();
   initFilter();
   initLightbox();
 
-  /* ---- ナビ：スクロールで影 ---- */
-  function initNav() {
+  /* ---- スクロール連動UI（ナビ影＋トップへ戻る）を単一リスナで処理 ---- */
+  function initScrollUI() {
     var nav = byId('nav');
-    if (!nav) return;
-    var onScroll = function () {
-      var y = window.scrollY || window.pageYOffset;
-      nav.classList.toggle('is-scrolled', y > NAV_SHADOW_AT);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  /* ---- トップへ戻る ---- */
-  function initToTop() {
     var toTop = byId('toTop');
-    if (!toTop) return;
     var onScroll = function () {
       var y = window.scrollY || window.pageYOffset;
-      toTop.classList.toggle('is-show', y > TO_TOP_AT);
+      if (nav) nav.classList.toggle('is-scrolled', y > NAV_SHADOW_AT);
+      if (toTop) toTop.classList.toggle('is-show', y > TO_TOP_AT);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    toTop.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (toTop) {
+      toTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   }
 
   /* ---- モバイルナビ開閉 ---- */
@@ -121,6 +111,17 @@
 
     /** @type {HTMLElement|null} 開く前のフォーカス要素（閉じたら戻す） */
     var lastFocused = null;
+    /** モーダル表示中に不活性化する背景要素（フォーカストラップ） */
+    var bgEls = [document.querySelector('header'), document.querySelector('main'), document.querySelector('footer')];
+
+    /** @param {boolean} on 背景を inert/aria-hidden にするか */
+    function setBackgroundInert(on) {
+      bgEls.forEach(function (el) {
+        if (!el) return;
+        if (on) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); }
+        else { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); }
+      });
+    }
 
     /**
      * 画像URLが安全か（相対の assets/img 配下の画像のみ許可）。
@@ -142,15 +143,18 @@
       lb.classList.add('is-open');
       lb.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      lbClose.focus();
+      setBackgroundInert(true);
+      // 表示が visible になった次フレームでフォーカス（hidden要素には focus が効かないため）
+      requestAnimationFrame(function () { lbClose.focus(); });
     }
 
     function close() {
       lb.classList.remove('is-open');
       lb.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      setBackgroundInert(false); // フォーカス復帰の前に解除（inert内は focus 不可のため）
       if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-      setTimeout(function () { lbImg.src = ''; }, LIGHTBOX_TRANSITION_MS);
+      setTimeout(function () { lbImg.removeAttribute('src'); }, LIGHTBOX_TRANSITION_MS);
     }
 
     cards.forEach(function (card) {
