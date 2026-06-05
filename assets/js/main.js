@@ -1,46 +1,81 @@
+// @ts-check
 /* ============================================================
    AI Works Portfolio — interactions
+   各機能を init*() に分割（単一責任）。型は JSDoc + @ts-check で担保。
    ============================================================ */
 (function () {
   'use strict';
 
-  /* ---- sticky nav shadow ---- */
-  var nav = document.getElementById('nav');
-  var toTop = document.getElementById('toTop');
-  function onScroll() {
-    var y = window.scrollY || window.pageYOffset;
-    if (nav) nav.classList.toggle('is-scrolled', y > 8);
-    if (toTop) toTop.classList.toggle('is-show', y > 600);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  /** CSS .lightbox の transition 時間(ms)に合わせる。CSSを変えたらここも合わせる。 */
+  var LIGHTBOX_TRANSITION_MS = 300;
+  /** ナビの影を出すスクロール量(px) */
+  var NAV_SHADOW_AT = 8;
+  /** 「トップへ戻る」を表示するスクロール量(px) */
+  var TO_TOP_AT = 600;
 
-  /* ---- to top ---- */
-  if (toTop) {
+  /** @param {string} id @returns {HTMLElement|null} */
+  function byId(id) { return document.getElementById(id); }
+
+  initNav();
+  initToTop();
+  initMobileNav();
+  initReveal();
+  initFilter();
+  initLightbox();
+
+  /* ---- ナビ：スクロールで影 ---- */
+  function initNav() {
+    var nav = byId('nav');
+    if (!nav) return;
+    var onScroll = function () {
+      var y = window.scrollY || window.pageYOffset;
+      nav.classList.toggle('is-scrolled', y > NAV_SHADOW_AT);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---- トップへ戻る ---- */
+  function initToTop() {
+    var toTop = byId('toTop');
+    if (!toTop) return;
+    var onScroll = function () {
+      var y = window.scrollY || window.pageYOffset;
+      toTop.classList.toggle('is-show', y > TO_TOP_AT);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     toTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  /* ---- mobile nav ---- */
-  var toggle = document.getElementById('navToggle');
-  var menu = document.getElementById('navMenu');
-  if (toggle && menu) {
+  /* ---- モバイルナビ開閉 ---- */
+  function initMobileNav() {
+    var toggle = byId('navToggle');
+    var menu = byId('navMenu');
+    if (!toggle || !menu) return;
     toggle.addEventListener('click', function () {
       var open = menu.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(open));
     });
+    // リンク内に子要素があっても閉じられるよう closest('a') で判定
     menu.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
+      var target = /** @type {Element} */ (e.target);
+      if (target && target.closest && target.closest('a')) {
         menu.classList.remove('is-open');
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
   }
 
-  /* ---- reveal on scroll ---- */
-  var reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window) {
+  /* ---- スクロール連動フェードイン ---- */
+  function initReveal() {
+    var reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      reveals.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) {
@@ -50,17 +85,17 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(function (el) { io.observe(el); });
-  } else {
-    reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
-  /* ---- works filter ---- */
-  var filters = document.getElementById('filters');
-  var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
-  var empty = document.getElementById('gridEmpty');
-  if (filters) {
+  /* ---- Works フィルタ ---- */
+  function initFilter() {
+    var filters = byId('filters');
+    var empty = byId('gridEmpty');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+    if (!filters) return;
     filters.addEventListener('click', function (e) {
-      var btn = e.target.closest('.chip');
+      var target = /** @type {Element} */ (e.target);
+      var btn = target && target.closest ? target.closest('.chip') : null;
       if (!btn) return;
       filters.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('is-active'); });
       btn.classList.add('is-active');
@@ -75,39 +110,66 @@
     });
   }
 
-  /* ---- lightbox ---- */
-  var lb = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lightboxImg');
-  var lbCap = document.getElementById('lightboxCap');
-  var lbClose = document.getElementById('lightboxClose');
+  /* ---- ライトボックス ---- */
+  function initLightbox() {
+    var lb = byId('lightbox');
+    var lbImg = /** @type {HTMLImageElement|null} */ (byId('lightboxImg'));
+    var lbCap = byId('lightboxCap');
+    var lbClose = byId('lightboxClose');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+    if (!lb || !lbImg || !lbCap || !lbClose) return;
 
-  function openLightbox(src, caption) {
-    if (!lb) return;
-    lbImg.src = src;
-    lbImg.alt = caption || '';
-    lbCap.textContent = caption || '';
-    lb.classList.add('is-open');
-    lb.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    if (!lb) return;
-    lb.classList.remove('is-open');
-    lb.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    setTimeout(function () { lbImg.src = ''; }, 300);
-  }
+    /** @type {HTMLElement|null} 開く前のフォーカス要素（閉じたら戻す） */
+    var lastFocused = null;
 
-  cards.forEach(function (card) {
-    card.addEventListener('click', function () {
-      openLightbox(card.getAttribute('data-img'), card.getAttribute('data-title'));
+    /**
+     * 画像URLが安全か（相対の assets/img 配下の画像のみ許可）。
+     * data:/javascript:/外部オリジンを弾く。
+     * @param {string|null} src
+     * @returns {boolean}
+     */
+    function isSafeImgSrc(src) {
+      return !!src && /^assets\/img\/[\w\-.]+\.(jpe?g|png|gif|webp|avif)$/i.test(src);
+    }
+
+    /** @param {string|null} src @param {string|null} caption */
+    function open(src, caption) {
+      if (!isSafeImgSrc(src)) return;
+      lastFocused = /** @type {HTMLElement|null} */ (document.activeElement);
+      lbImg.src = /** @type {string} */ (src);
+      lbImg.alt = caption || '';
+      lbCap.textContent = caption || '';
+      lb.classList.add('is-open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbClose.focus();
+    }
+
+    function close() {
+      lb.classList.remove('is-open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+      setTimeout(function () { lbImg.src = ''; }, LIGHTBOX_TRANSITION_MS);
+    }
+
+    cards.forEach(function (card) {
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('click', function () {
+        open(card.getAttribute('data-img'), card.getAttribute('data-title'));
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open(card.getAttribute('data-img'), card.getAttribute('data-title'));
+        }
+      });
     });
-  });
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  if (lb) lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  /* ---- footer year (keep static fallback) ---- */
+    lbClose.addEventListener('click', close);
+    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
+    });
+  }
 })();

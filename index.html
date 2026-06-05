@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 多層防御：スクリプト/スタイル/画像の取得元を制限（XSS時の影響を最小化） -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
 <title>AI Works — AI開発ポートフォリオ</title>
 <meta name="description" content="マルチエージェントのワークフローで、分析から実装・検証までを自動化。AI開発の成果物をまとめたポートフォリオです。">
 <!-- 検索エンジンに載せない（リンクを知っている人だけがアクセスする想定） -->
@@ -16,7 +18,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -53,7 +55,7 @@
         <a class="btn btn--ghost" href="#contact">お問い合わせ</a>
       </div>
       <figure class="hero__shot reveal">
-        <img src="assets/img/hero.jpg" alt="マルチエージェントワークフロー（analyzer / builder / reviewer）の出力画面" loading="eager">
+        <img src="assets/img/hero.jpg" alt="マルチエージェントワークフロー（analyzer / builder / reviewer）の出力画面" width="1400" height="1400" loading="eager" fetchpriority="high" decoding="async">
       </figure>
     </div>
   </section>
@@ -88,7 +90,7 @@
       <div class="grid" id="grid">
 
         <article class="card reveal" data-category="agent" data-img="assets/img/work-multiagent.png" data-title="マルチエージェントによるToDoアプリ自動生成">
-          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="マルチエージェント出力" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="マルチエージェント出力" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Claude Code</span><span class="tag">SubAgents</span><span class="tag">Python</span></div>
             <h3 class="card__title">マルチエージェントによる<br>ToDoアプリ自動生成</h3>
@@ -98,7 +100,7 @@
         </article>
 
         <article class="card reveal" data-category="automation" data-img="assets/img/work-multiagent.png" data-title="SEO記事 自動執筆ワークフロー">
-          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="SEO執筆ワークフロー" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="SEO執筆ワークフロー" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Skills</span><span class="tag">SEO</span></div>
             <h3 class="card__title">SEO記事<br>自動執筆ワークフロー</h3>
@@ -108,7 +110,7 @@
         </article>
 
         <article class="card reveal" data-category="automation" data-img="assets/img/work-multiagent.png" data-title="ファイル分析パイプライン">
-          <div class="card__thumb"><img src="assets/img/work-builder-thumb.jpg" alt="ファイル分析パイプライン" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-builder-thumb.jpg" alt="ファイル分析パイプライン" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Commands</span><span class="tag">Pipeline</span></div>
             <h3 class="card__title">ファイル分析<br>パイプライン</h3>
@@ -118,7 +120,7 @@
         </article>
 
         <article class="card reveal" data-category="agent" data-img="assets/img/work-multiagent.png" data-title="コードレビュー自動化エージェント">
-          <div class="card__thumb"><img src="assets/img/work-reviewer-thumb.jpg" alt="コードレビュー自動化" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-reviewer-thumb.jpg" alt="コードレビュー自動化" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Reviewer</span><span class="tag">Quality</span></div>
             <h3 class="card__title">コードレビュー<br>自動化エージェント</h3>
@@ -128,7 +130,7 @@
         </article>
 
         <article class="card reveal" data-category="webapp" data-img="assets/img/work-multiagent.png" data-title="タスク管理ボード生成">
-          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="タスク管理ボード" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-multiagent-thumb.jpg" alt="タスク管理ボード" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Skills</span><span class="tag">HTML</span></div>
             <h3 class="card__title">タスク管理<br>ボード生成</h3>
@@ -138,7 +140,7 @@
         </article>
 
         <article class="card reveal" data-category="webapp" data-img="assets/img/work-multiagent.png" data-title="ポートフォリオサイト自動構築">
-          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="ポートフォリオ自動構築" loading="lazy"></div>
+          <div class="card__thumb"><img src="assets/img/work-analyzer-thumb.jpg" alt="ポートフォリオ自動構築" width="400" height="250" loading="lazy" decoding="async"></div>
           <div class="card__body">
             <div class="tags"><span class="tag">Design</span><span class="tag">Frontend</span></div>
             <h3 class="card__title">ポートフォリオ<br>サイト自動構築</h3>
